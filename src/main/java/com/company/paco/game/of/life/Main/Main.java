@@ -1,33 +1,45 @@
 package com.company.paco.game.of.life.Main;
 
-import java.util.Random;
+import com.company.paco.game.of.life.GameOfLife;
+import com.company.paco.game.of.life.tools.cls.Cleaner;
+
 import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
-        // Create a Scanner object to read input from the keyboard
-        Scanner keyboard = new Scanner(System.in);
-        // Get n and seed from the user
-        System.out.print("Enter n: ");
-        int n = keyboard.nextInt();
-        System.out.print("Enter seed: ");
-        int seed = keyboard.nextInt();
-        // Set seed for random number generator
-        Random rand = new Random(seed);
-        // Create array of booleans named map
-        int[][] map = new int[n][n];
-        // Initialize map with random values
-        for (int i = 0; i < n; i++) {
-            for (int j = 0; j < n; j++) {
-                map[i][j] = rand.nextBoolean() ? 1 : 0;
-            }
+        golInput input = new golInput();
+        // Create new Game of Life
+        GameOfLife gameOfLife = new GameOfLife(input.n, input.seed, input.maxGenerations);
+        // Print initialized map
+        Cleaner.clearConsole();
+        gameOfLife.printMap();
+        // Update map in a loop
+        for (int i = 0; i < gameOfLife.getMaxGenerations(); i++) {
+            // Update map
+            gameOfLife.updateMap();
+            // Clean console
+            Cleaner.clearConsole();
+            // Print map
+            gameOfLife.printMap();
         }
-        // Print map
-        for (int i = 0; i < n; i++) {
-            for (int j = 0; j < n; j++) {
-                System.out.print(map[i][j] == 1 ? "O" : " ");
-            }
-            System.out.println();
+    }
+
+    /**
+     * Static local class to getInput for user
+     * Input is needed to initialize GameOfLife class
+     */
+    final static class golInput {
+        int n;
+        int seed;
+        int maxGenerations;
+        public golInput() {
+            Scanner keyboard = new Scanner(System.in);
+            System.out.print("Enter n: ");
+            this.n = keyboard.nextInt();
+            System.out.print("Enter seed: ");
+            this.seed = keyboard.nextInt();
+            System.out.print("Enter max generations: ");
+            this.maxGenerations = keyboard.nextInt();
         }
     }
 }
