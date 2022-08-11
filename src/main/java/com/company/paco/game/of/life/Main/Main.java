@@ -1,7 +1,7 @@
 package com.company.paco.game.of.life.Main;
 
 import com.company.paco.game.of.life.GameOfLife;
-import com.company.paco.game.of.life.tools.cls.Cleaner;
+import com.company.paco.game.of.life.tools.Cleaner;
 
 import java.util.Scanner;
 

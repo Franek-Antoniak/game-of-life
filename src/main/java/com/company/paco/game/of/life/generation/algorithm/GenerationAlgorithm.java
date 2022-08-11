@@ -1,19 +1,17 @@
 package com.company.paco.game.of.life.generation.algorithm;
 
+import com.company.paco.game.of.life.map.GameMap;
+
 /**
  * Generation algorithm has only one important function - getState()
  * to deliver if cell will be alive in the next generation
  */
 public class
 GenerationAlgorithm {
-    private boolean[][] map;
+    private char[][] map;
 
-    public GenerationAlgorithm(boolean[][] map) {
-        this.map = map;
-    }
-
-    public void setMap(boolean[][] map) {
-        this.map = map;
+    public GenerationAlgorithm(GameMap map) {
+        this.map = map.getMap();
     }
 
     /**
@@ -28,21 +26,25 @@ GenerationAlgorithm {
      * @param j - second index in the map
      * @return state of the cell placed in (i, j) in next generation
      */
-    public boolean getState(int i, int j) {
+    public char getNewState(int i, int j) {
         int modulo = map.length;
         int counter = 0;
         for (int k = i - 1; k <= i + 1; k++) {
             for (int l = j - 1; l <= j + 1; l++) {
-                if (map[(k + modulo) % modulo][(l + modulo) % modulo]) {
+                if (map[(k + modulo) % modulo][(l + modulo) % modulo] == 'O') {
                     counter++;
                 }
             }
         }
-        if (map[i][j]) {
-            return counter - 1 == 2 || counter - 1 == 3;
+        if (map[i][j] == 'O') {
+            return (counter - 1 == 2 || counter - 1 == 3) ? 'O' : ' ';
         }
         else {
-            return counter == 3;
+            return counter == 3 ? 'O' : ' ';
         }
+    }
+
+    public void setMap(char[][] map) {
+        this.map = map;
     }
 }

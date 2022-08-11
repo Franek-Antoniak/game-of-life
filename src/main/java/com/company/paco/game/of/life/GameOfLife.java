@@ -1,6 +1,7 @@
 package com.company.paco.game.of.life;
 
 import com.company.paco.game.of.life.generation.algorithm.GenerationAlgorithm;
+import com.company.paco.game.of.life.map.GameMap;
 
 import java.util.Random;
 
@@ -12,7 +13,7 @@ public class GameOfLife {
     private final int n;
     private final int seed;
     private final GenerationAlgorithm generationAlgorithm;
-    private boolean[][] map;
+    GameMap gameMap;
     private int currentGeneration;
 
     public GameOfLife(int n, int seed, int maxGenerations) {
@@ -21,7 +22,7 @@ public class GameOfLife {
         this.maxGenerations = maxGenerations;
         currentGeneration = 0;
         initializeMap();
-        generationAlgorithm = new GenerationAlgorithm(map);
+        generationAlgorithm = new GenerationAlgorithm(gameMap);
     }
 
     /**
@@ -29,12 +30,19 @@ public class GameOfLife {
      */
     private void initializeMap() {
         Random rand = new Random(seed);
-        map = new boolean[n][n];
+        char[][] map = new char[n][n];
+        StringBuilder mapAsString = new StringBuilder();
+        int numberOfAliveCells = 0;
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < n; j++) {
-                map[i][j] = rand.nextBoolean();
+                map[i][j] = rand.nextBoolean() ? 'O' : ' ';
+                numberOfAliveCells += map[i][j] == 'O' ? 1 : 0;
+                mapAsString.append(map[i][j]).append(" ");
             }
+            mapAsString.append("\n");
         }
+        gameMap = new GameMap();
+        gameMap.setMapInfo(map, numberOfAliveCells, mapAsString.toString());
     }
 
     public int getMaxGenerations() {
@@ -46,14 +54,19 @@ public class GameOfLife {
      */
     public void updateMap() {
         currentGeneration++;
-        boolean[][] newMap = new boolean[n][n];
-        generationAlgorithm.setMap(map);
+        int numberOfAliveCells = 0;
+        StringBuilder mapAsString = new StringBuilder();
+        char[][] newMap = new char[n][n];
+        generationAlgorithm.setMap(gameMap.getMap());
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < n; j++) {
-                newMap[i][j] = generationAlgorithm.getState(i, j);
+                newMap[i][j] = generationAlgorithm.getNewState(i, j);
+                numberOfAliveCells += newMap[i][j] == 'O' ? 1 : 0;
+                mapAsString.append(newMap[i][j]).append(" ");
             }
+            mapAsString.append("\n");
         }
-        map = newMap;
+        gameMap.setMapInfo(newMap, numberOfAliveCells, mapAsString.toString());
     }
 
     /**
@@ -63,19 +76,7 @@ public class GameOfLife {
      */
     public void printMap() {
         System.out.println("Generation number " + currentGeneration + ":");
-        int counter = 0;
-        for (boolean[] row : map) {
-            for (boolean cell : row) {
-                counter += cell ? 1 : 0;
-            }
-        }
-        System.out.println("Number of alive cells: " + counter);
-        for (int i = 0; i < n; i++) {
-            for (int j = 0; j < n; j++) {
-                System.out.print(map[i][j] ? "O" : " ");
-                System.out.print(" ");
-            }
-            System.out.println();
-        }
+        System.out.println("Number of alive cells: " + gameMap.getNumberOfCellsAlive() + " out of " + n * n);
+        System.out.println(gameMap.getMapAsString());
     }
 }

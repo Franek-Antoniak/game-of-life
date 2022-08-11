@@ -1,4 +1,4 @@
-package com.company.paco.game.of.life.tools.cls;
+package com.company.paco.game.of.life.tools;
 
 
 import java.io.IOException;
@@ -20,7 +20,7 @@ public class Cleaner {
     }
 
     public static void terminalClearConsole() {
-        sleepConsole(300);
+        sleepConsole(150);
         try {
             new ProcessBuilder("cmd", "/c", "cls").inheritIO()
                                                   .start()
