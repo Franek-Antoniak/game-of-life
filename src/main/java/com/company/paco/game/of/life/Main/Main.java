@@ -11,14 +11,14 @@ public class Main {
         // Create new Game of Life
         GameOfLife gameOfLife = new GameOfLife(input.n, input.seed, input.maxGenerations);
         // Print initialized map
-        Cleaner.clearConsole();
+        Cleaner.terminalClearConsole();
         gameOfLife.printMap();
         // Update map in a loop
         for (int i = 0; i < gameOfLife.getMaxGenerations(); i++) {
             // Update map
             gameOfLife.updateMap();
             // Clean console
-            Cleaner.clearConsole();
+            Cleaner.terminalClearConsole();
             // Print map
             gameOfLife.printMap();
         }
@@ -32,6 +32,7 @@ public class Main {
         int n;
         int seed;
         int maxGenerations;
+
         public golInput() {
             Scanner keyboard = new Scanner(System.in);
             System.out.print("Enter n: ");

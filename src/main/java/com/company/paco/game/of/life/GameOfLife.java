@@ -8,12 +8,12 @@ import java.util.Random;
  * Main class for the whole logic of the game
  */
 public class GameOfLife {
-    private boolean[][] map;
     private final int maxGenerations;
-    private int currentGeneration;
     private final int n;
     private final int seed;
     private final GenerationAlgorithm generationAlgorithm;
+    private boolean[][] map;
+    private int currentGeneration;
 
     public GameOfLife(int n, int seed, int maxGenerations) {
         this.n = n;
@@ -59,14 +59,21 @@ public class GameOfLife {
     /**
      * Prints current map into console
      * Character 'O' - cell is alive
-     * Character '-' - cell is dead
+     * Character ' ' - cell is dead
      */
     public void printMap() {
         System.out.println("Generation number " + currentGeneration + ":");
+        int counter = 0;
+        for (boolean[] row : map) {
+            for (boolean cell : row) {
+                counter += cell ? 1 : 0;
+            }
+        }
+        System.out.println("Number of alive cells: " + counter);
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < n; j++) {
-                System.out.print(map[i][j] ? "O" : "-");
-                System.out.print("  ");
+                System.out.print(map[i][j] ? "O" : " ");
+                System.out.print(" ");
             }
             System.out.println();
         }

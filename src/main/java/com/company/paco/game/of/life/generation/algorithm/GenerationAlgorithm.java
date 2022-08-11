@@ -4,7 +4,8 @@ package com.company.paco.game.of.life.generation.algorithm;
  * Generation algorithm has only one important function - getState()
  * to deliver if cell will be alive in the next generation
  */
-public class GenerationAlgorithm {
+public class
+GenerationAlgorithm {
     private boolean[][] map;
 
     public GenerationAlgorithm(boolean[][] map) {
@@ -22,6 +23,7 @@ public class GenerationAlgorithm {
      * 2. If the cell is currently dead:
      * - Cell will be alive only if it has exactly 3 alive neighbours.
      * Modulo is used to take into account the neighbours of the cells at the edges of the map.
+     *
      * @param i - first index in the map
      * @param j - second index in the map
      * @return state of the cell placed in (i, j) in next generation
@@ -31,7 +33,7 @@ public class GenerationAlgorithm {
         int counter = 0;
         for (int k = i - 1; k <= i + 1; k++) {
             for (int l = j - 1; l <= j + 1; l++) {
-                if(map[(k + modulo) % modulo][(l + modulo) % modulo]) {
+                if (map[(k + modulo) % modulo][(l + modulo) % modulo]) {
                     counter++;
                 }
             }
