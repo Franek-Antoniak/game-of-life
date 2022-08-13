@@ -8,20 +8,8 @@ import java.util.Scanner;
 public class Main {
     public static void main(String[] args) {
         golInput input = new golInput();
-        // Create new Game of Life
         GameOfLife gameOfLife = new GameOfLife(input.n, input.seed, input.maxGenerations);
-        // Print initialized map
-        Cleaner.terminalClearConsole();
-        gameOfLife.printMap();
-        // Update map in a loop
-        for (int i = 0; i < gameOfLife.getMaxGenerations(); i++) {
-            // Update map
-            gameOfLife.updateMap();
-            // Clean console
-            Cleaner.terminalClearConsole();
-            // Print map
-            gameOfLife.printMap();
-        }
+        gameOfLife.start();
     }
 
     /**

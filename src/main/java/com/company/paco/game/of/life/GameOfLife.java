@@ -2,6 +2,7 @@ package com.company.paco.game.of.life;
 
 import com.company.paco.game.of.life.generation.algorithm.GenerationAlgorithm;
 import com.company.paco.game.of.life.map.GameMap;
+import com.company.paco.game.of.life.tools.Cleaner;
 
 import java.util.Random;
 
@@ -52,7 +53,7 @@ public class GameOfLife {
     /**
      * Updates whole map to nextGeneration
      */
-    public void updateMap() {
+    private void updateMap() {
         currentGeneration++;
         int numberOfAliveCells = 0;
         StringBuilder mapAsString = new StringBuilder();
@@ -74,9 +75,17 @@ public class GameOfLife {
      * Character 'O' - cell is alive
      * Character ' ' - cell is dead
      */
-    public void printMap() {
+    private void printMap() {
+        Cleaner.terminalClearConsole();
         System.out.println("Generation number " + currentGeneration + ":");
         System.out.println("Number of alive cells: " + gameMap.getNumberOfCellsAlive() + " out of " + n * n);
         System.out.println(gameMap.getMapAsString());
+    }
+
+    public void start() {
+        for (int i = 0; i < maxGenerations; i++) {
+            printMap();
+            updateMap();
+        }
     }
 }
