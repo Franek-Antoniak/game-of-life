@@ -5,7 +5,8 @@ public class GameMap {
     private int numberOfCellsAlive;
     private String getMapAsString;
 
-    public GameMap() {
+    public GameMap(int n) {
+        map = new char[n][n];
     }
 
     // Getters
