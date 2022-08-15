@@ -4,23 +4,11 @@ package com.company.paco.game.of.life.tools;
 import java.io.IOException;
 
 /**
- * Cleaner use Grep Console plugin from INTELLIJ
- * Pattern matching in Grep console match "Clear Console" line and
- * clear whole console when it appears
+ * Interface with one method to clean terminal screen
  */
-public class Cleaner {
-    public static void grepClearConsole() {
-        // Waiting 2 seconds for user to read the console before cleaning it
-        sleepConsole(1000);
-        // Clearing the console through INTELLIJ plugin named Grep console
-        System.out.println();
-        System.out.print("Clear Console");
-        // Waiting for plugin to clear the console
-        sleepConsole(20);
-    }
-
-    public static void terminalClearConsole() {
-        sleepConsole(150);
+public interface Cleaner {
+    static void terminalClearConsole() {
+        sleepConsole();
         try {
             new ProcessBuilder("cmd", "/c", "cls").inheritIO()
                                                   .start()
@@ -34,12 +22,10 @@ public class Cleaner {
     /**
      * It removes redundant boilerplate code - everytime someone want to use Thread.sleep() there is
      * try catch or throw
-     *
-     * @param millis time in milliseconds
      */
-    private static void sleepConsole(int millis) {
+    private static void sleepConsole() {
         try {
-            Thread.sleep(millis);
+            Thread.sleep(150);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }

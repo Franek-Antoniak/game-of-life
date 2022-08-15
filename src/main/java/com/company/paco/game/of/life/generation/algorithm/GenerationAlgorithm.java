@@ -1,19 +1,14 @@
 package com.company.paco.game.of.life.generation.algorithm;
 
-import com.company.paco.game.of.life.map.GameMap;
+import com.company.paco.game.of.life.record.Pair;
+
+import java.util.function.Function;
 
 /**
- * Generation algorithm has only one important function - getState()
+ * Generation algorithm has only one important function - calculateNewState()
  * to deliver if cell will be alive in the next generation
  */
-public class
-GenerationAlgorithm {
-    private char[][] map;
-
-    public GenerationAlgorithm(GameMap map) {
-        this.map = map.getMap();
-    }
-
+public interface GenerationAlgorithm {
     /**
      * Rules - under what conditions cell will be alive
      * 1. If the cell is currently alive:
@@ -22,29 +17,20 @@ GenerationAlgorithm {
      * - Cell will be alive only if it has exactly 3 alive neighbours.
      * Modulo is used to take into account the neighbours of the cells at the edges of the map.
      *
-     * @param i - first index in the map
-     * @param j - second index in the map
-     * @return state of the cell placed in (i, j) in next generation
+     * @param map    - current map
+     * @param coords - coordinates of the cell to check
+     * @return state of the cell at the defined coordinates in the next generation
      */
-    public char getNewState(int i, int j) {
-        int modulo = map.length;
+    static char calculateNewState(char[][] map, Pair coords) {
+        int mod = map.length;
+        Function<Integer, Integer> modulo = x -> (x + mod) % mod;
         int counter = 0;
-        for (int k = i - 1; k <= i + 1; k++) {
-            for (int l = j - 1; l <= j + 1; l++) {
-                if (map[(k + modulo) % modulo][(l + modulo) % modulo] == 'O') {
-                    counter++;
-                }
+        for (int i = -1; i <= 1; i++) {
+            for (int j = -1; j <= 1; j++) {
+                if (map[modulo.apply(coords.x() + i)][modulo.apply(coords.y() + j)] == 'O') counter++;
             }
         }
-        if (map[i][j] == 'O') {
-            return (counter - 1 == 2 || counter - 1 == 3) ? 'O' : ' ';
-        }
-        else {
-            return counter == 3 ? 'O' : ' ';
-        }
-    }
-
-    public void setMap(char[][] map) {
-        this.map = map;
+        if (map[coords.x()][coords.y()] == 'O') return (counter - 1 == 2 || counter - 1 == 3) ? 'O' : ' ';
+        else return counter == 3 ? 'O' : ' ';
     }
 }
