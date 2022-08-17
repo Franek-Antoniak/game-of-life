@@ -8,7 +8,12 @@ import java.util.function.Function;
  * Generation algorithm has only one important function - calculateNewState()
  * to deliver if cell will be alive in the next generation
  */
-public interface GenerationAlgorithm {
+public class GenerationAlgorithm {
+
+    private GenerationAlgorithm() {
+        // private constructor to prevent instantiation
+    }
+
     /**
      * Rules - under what conditions cell will be alive
      * 1. If the cell is currently alive:
@@ -21,7 +26,7 @@ public interface GenerationAlgorithm {
      * @param coords - coordinates of the cell to check
      * @return state of the cell at the defined coordinates in the next generation
      */
-    static char calculateNewState(char[][] map, Pair coords) {
+    public static char calculateNewState(char[][] map, Pair coords) {
         int mod = map.length;
         Function<Integer, Integer> modulo = x -> (x + mod) % mod;
         int counter = 0;

@@ -4,15 +4,20 @@ package com.company.paco.game.of.life.tools;
 import java.io.IOException;
 
 /**
- * Interface with one method to clean terminal screen
+ * Class with one method to clean terminal screen
  */
-public interface Cleaner {
-    static void terminalClearConsole() {
+public class Cleaner {
+
+    private Cleaner() {
+        // private constructor to prevent instantiation
+    }
+
+    public static void terminalClearConsole() {
         sleepConsole();
         try {
             new ProcessBuilder("cmd", "/c", "cls").inheritIO()
-                                                  .start()
-                                                  .waitFor();
+                    .start()
+                    .waitFor();
         } catch (InterruptedException | IOException e) {
             throw new RuntimeException(e);
         }

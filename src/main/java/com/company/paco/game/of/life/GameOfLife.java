@@ -37,7 +37,7 @@ public class GameOfLife {
     }
 
     /**
-     * Updates curren map to the next generation with usage of GenerationAlgorithm interface
+     * Updates curren map to the next generation with usage of Generation Algorithm
      */
     private void updateMap() {
         currentGeneration++;
@@ -57,7 +57,7 @@ public class GameOfLife {
                 newMap[i][j] = getNewCellState.apply(gameMap.getMap(), new Pair(i, j));
                 numberOfAliveCells += newMap[i][j] == 'O' ? 1 : 0;
                 mapAsString.append(newMap[i][j])
-                           .append(" ");
+                        .append(" ");
             }
             mapAsString.append("\n");
         }
