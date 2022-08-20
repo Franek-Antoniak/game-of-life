@@ -1,4 +1,4 @@
-package com.company.paco.game.of.life;
+package com.company.paco.game.of.life.mvc;
 
 import com.company.paco.game.of.life.generation.algorithm.GenerationAlgorithm;
 import com.company.paco.game.of.life.map.GameMap;
@@ -11,19 +11,14 @@ import java.util.function.BiFunction;
 /**
  * Class with the most abstract implementation of the game logic.
  */
-public class GameOfLife {
+public class GameOfLifeModel {
     private final int maxGenerations;
     private final int n;
     private final Random random = new Random();
     private final GameMap gameMap;
     private int currentGeneration = 0;
 
-    public GameOfLife(int n, int seed, int maxGenerations) {
-        this(n, maxGenerations);
-        this.random.setSeed(seed);
-    }
-
-    public GameOfLife(int n, int maxGenerations) {
+    public GameOfLifeModel(int n, int maxGenerations) {
         this.n = n;
         this.maxGenerations = maxGenerations;
         this.gameMap = new GameMap(n);
