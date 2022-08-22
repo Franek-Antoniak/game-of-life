@@ -3,11 +3,11 @@ package com.company.paco.game.of.life.mvc;
 import javax.swing.*;
 import java.awt.*;
 
-public class GameOfLifeFrame extends JFrame {
+public class GOFMainFrame extends JFrame {
     private final GameOfLifeController controller = new GameOfLifeController(this);
     private GameOfLifeModel model;
 
-    public GameOfLifeFrame() {
+    public GOFMainFrame() {
         super("Game of Life");
         initializeWindow();
         addIntInputs();
@@ -30,8 +30,8 @@ public class GameOfLifeFrame extends JFrame {
         JButton startButton = addButton("Send values", new Rectangle(480, 200, 150, 30));
         startButton.addActionListener(e -> {
             try {
-                int n = Integer.parseInt(nValue.getText());
-                int maxGenerations = Integer.parseInt(genValue.getText());
+                int n = Integer.parseInt(nValue.getText().replaceAll("\\s+", ""));
+                int maxGenerations = Integer.parseInt(genValue.getText().replaceAll("\\s+", ""));
                 model = new GameOfLifeModel(n, maxGenerations);
                 model.start();
             } catch (NumberFormatException ex) {
@@ -41,7 +41,7 @@ public class GameOfLifeFrame extends JFrame {
         });
     }
 
-    private JButton addButton(String text, Rectangle bounds) {
+    protected JButton addButton(String text, Rectangle bounds) {
         JButton button = new JButton(text);
         button.setBounds(bounds);
         button.setBackground(Color.GREEN);
@@ -49,13 +49,13 @@ public class GameOfLifeFrame extends JFrame {
         return button;
     }
 
-    private JTextField addTextAndInput(String text, Rectangle bounds) {
+    protected JTextField addTextAndInput(String text, Rectangle bounds) {
         addLabel(text, bounds);
         Rectangle textRectangle = new Rectangle(bounds.x + bounds.width, bounds.y, bounds.width, bounds.height);
         return addJTextField(textRectangle);
     }
 
-    private JTextField addJTextField(Rectangle bounds) {
+    protected JTextField addJTextField(Rectangle bounds) {
         JTextField textField = new JTextField();
         textField.setBounds(bounds.x, bounds.y, bounds.width, bounds.height);
         add(textField);
@@ -63,7 +63,7 @@ public class GameOfLifeFrame extends JFrame {
         return textField;
     }
 
-    private void addLabel(String text, Rectangle bounds) {
+    protected void addLabel(String text, Rectangle bounds) {
         JLabel nameLabel = new JLabel();
         nameLabel.setText(text);
         nameLabel.setBounds(bounds.x, bounds.y, bounds.width, bounds.height);
