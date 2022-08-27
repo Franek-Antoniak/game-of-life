@@ -3,7 +3,6 @@ package com.company.paco.game.of.life.mvc;
 import com.company.paco.game.of.life.generation.algorithm.GenerationAlgorithm;
 import com.company.paco.game.of.life.map.GameMap;
 import com.company.paco.game.of.life.record.Pair;
-import com.company.paco.game.of.life.tools.Cleaner;
 
 import java.util.Random;
 import java.util.function.BiFunction;
@@ -17,11 +16,20 @@ public class GameOfLifeModel {
     private final Random random = new Random();
     private final GameMap gameMap;
     private int currentGeneration = 0;
+    private GameOfLifeController gameOfLifeController;
+
+    public GameMap getGameMap() {
+        return gameMap;
+    }
 
     public GameOfLifeModel(int n, int maxGenerations) {
         this.n = n;
         this.maxGenerations = maxGenerations;
         this.gameMap = new GameMap(n);
+    }
+
+    public void setController(GameOfLifeController gameOfLifeController) {
+        this.gameOfLifeController = gameOfLifeController;
     }
 
     /**
@@ -52,7 +60,7 @@ public class GameOfLifeModel {
                 newMap[i][j] = getNewCellState.apply(gameMap.getMap(), new Pair(i, j));
                 numberOfAliveCells += newMap[i][j] == 'O' ? 1 : 0;
                 mapAsString.append(newMap[i][j])
-                        .append(" ");
+                        .append("    ");
             }
             mapAsString.append("\n");
         }
@@ -64,17 +72,22 @@ public class GameOfLifeModel {
      * Character 'O' - cell is alive
      * Character ' ' - cell is dead
      */
-    private void printMap() {
-        Cleaner.terminalClearConsole();
-        System.out.println("Generation number " + currentGeneration + ":");
-        System.out.println("Number of alive cells: " + gameMap.getNumberOfCellsAlive() + " out of " + n * n);
-        System.out.println(gameMap.getMapAsString());
+    private String getGameInString() {
+        return "Generation number " +
+                currentGeneration +
+                ":\n" +
+                "Number of alive cells: " +
+                gameMap.getNumberOfCellsAlive() +
+                " out of " +
+                n * n +
+                "\n" +
+                gameMap.getMapAsString();
     }
 
     public void start() {
         initializeMap();
         for (int i = 0; i <= maxGenerations; i++) {
-            printMap();
+            gameOfLifeController.printGame(getGameInString());
             updateMap();
         }
     }

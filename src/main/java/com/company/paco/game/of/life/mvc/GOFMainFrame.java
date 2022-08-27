@@ -4,8 +4,10 @@ import javax.swing.*;
 import java.awt.*;
 
 public class GOFMainFrame extends JFrame {
-    private final GameOfLifeController controller = new GameOfLifeController(this);
+    private GameOfLifeController controller;
+    private boolean isInputSet = false;
     private GameOfLifeModel model;
+    private String gameInString;
 
     public GOFMainFrame() {
         super("Game of Life");
@@ -33,12 +35,32 @@ public class GOFMainFrame extends JFrame {
                 int n = Integer.parseInt(nValue.getText().replaceAll("\\s+", ""));
                 int maxGenerations = Integer.parseInt(genValue.getText().replaceAll("\\s+", ""));
                 model = new GameOfLifeModel(n, maxGenerations);
-                model.start();
+                controller = new GameOfLifeController(this, model);
+                model.setController(controller);
+                isInputSet = true;
             } catch (NumberFormatException ex) {
                 JOptionPane.showMessageDialog(this, "Complete the fields with positive numbers", "Error",
                         JOptionPane.ERROR_MESSAGE);
             }
         });
+        new Thread(() -> {
+            while (true) {
+                if(isInputSet) {
+                    model.start();
+                    break;
+                }
+                sleepConsole();
+            }
+        }).start();
+    }
+
+    public void paint(Graphics g) {
+        super.paint(g);
+        if (isInputSet) {
+            int y = 270;
+            for (String line : gameInString.split("\n"))
+                g.drawString(line, 190, y += g.getFontMetrics().getHeight());
+        }
     }
 
     protected JButton addButton(String text, Rectangle bounds) {
@@ -69,5 +91,19 @@ public class GOFMainFrame extends JFrame {
         nameLabel.setBounds(bounds.x, bounds.y, bounds.width, bounds.height);
         nameLabel.setFont(new Font("Arial", Font.BOLD, 16));
         add(nameLabel);
+    }
+
+    public void printGame(String gameInString) {
+        this.gameInString = gameInString;
+        repaint();
+        sleepConsole();
+    }
+
+    private static void sleepConsole() {
+        try {
+            Thread.sleep(500);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 }
