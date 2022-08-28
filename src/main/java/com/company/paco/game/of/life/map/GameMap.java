@@ -1,28 +1,20 @@
 package com.company.paco.game.of.life.map;
 
 public class GameMap {
-    private char[][] map;
+    private boolean[][] map;
     private int numberOfCellsAlive;
     private String getMapAsString;
 
     public GameMap(int n) {
-        map = new char[n][n];
+        map = new boolean[n][n];
     }
 
     // Getters
-    public char[][] getMap() {
+    public boolean[][] getMap() {
         return map;
     }
 
-    public String getMapAsString() {
-        return getMapAsString;
-    }
-
-    public int getNumberOfCellsAlive() {
-        return numberOfCellsAlive;
-    }
-
-    public void setMapInfo(char[][] newMap, int numberOfAliveCells, String mapAsString) {
+    public void setMapInfo(boolean[][] newMap, int numberOfAliveCells, String mapAsString) {
         this.map = newMap;
         this.numberOfCellsAlive = numberOfAliveCells;
         this.getMapAsString = mapAsString;

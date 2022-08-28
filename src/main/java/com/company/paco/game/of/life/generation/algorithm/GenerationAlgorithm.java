@@ -26,16 +26,16 @@ public class GenerationAlgorithm {
      * @param coords - coordinates of the cell to check
      * @return state of the cell at the defined coordinates in the next generation
      */
-    public static char calculateNewState(char[][] map, Pair coords) {
+    public static boolean calculateNewState(boolean[][] map, Pair coords) {
         int mod = map.length;
         Function<Integer, Integer> modulo = x -> (x + mod) % mod;
         int counter = 0;
         for (int i = -1; i <= 1; i++) {
             for (int j = -1; j <= 1; j++) {
-                if (map[modulo.apply(coords.x() + i)][modulo.apply(coords.y() + j)] == 'O') counter++;
+                if (map[modulo.apply(coords.x() + i)][modulo.apply(coords.y() + j)]) counter++;
             }
         }
-        if (map[coords.x()][coords.y()] == 'O') return (counter - 1 == 2 || counter - 1 == 3) ? 'O' : ' ';
-        else return counter == 3 ? 'O' : ' ';
+        if (map[coords.x()][coords.y()]) return (counter - 1 == 2 || counter - 1 == 3);
+        else return counter == 3;
     }
 }
