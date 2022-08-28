@@ -1,15 +1,36 @@
 package com.company.paco.game.of.life.mvc;
 
 public class GameOfLifeController {
-/*    private final GOFMainFrame GOFMainFrame;
+    private GOFMainFrame GOFMainFrame;
     private GameOfLifeModel gameOfLifeModel;
 
-    public GameOfLifeController(GOFMainFrame GOFMainFrame, GameOfLifeModel gameOfLifeModel) {
-        this.GOFMainFrame = GOFMainFrame;
-        this.gameOfLifeModel = gameOfLifeModel;
+    private final static GameOfLifeController controllerInstance = new GameOfLifeController();
+
+    private GameOfLifeController() {
     }
 
-    public void printGame(String gameInString) {
-        GOFMainFrame.printGame(gameInString);
-    }*/
+    public static GameOfLifeController getInstance() {
+        return controllerInstance;
+    }
+
+    public void initializeMainFrame() {
+        GOFMainFrame = new GOFMainFrame();
+    }
+
+    public void startTheGame(int n, int maxGenerations) {
+        gameOfLifeModel = new GameOfLifeModel(n);
+        GOFMainFrame.initializeGamePanel(n);
+        new Thread(() -> {
+            for (int i = 0; i < maxGenerations; i++) {
+                GOFMainFrame.rePaintGamePanel(n, gameOfLifeModel.getGameMap()
+                        .getMap());
+                gameOfLifeModel.nextGeneration();
+                try {
+                    Thread.sleep(500);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        }).start();
+    }
 }

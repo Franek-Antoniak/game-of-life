@@ -5,7 +5,7 @@ import com.company.paco.game.of.life.swing.elements.input.InputPanelFactory;
 import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
-import java.util.Random;
+import java.awt.event.ActionListener;
 
 public class GOFMainFrame extends JFrame {
     private final JPanel gamePanel = new JPanel();
@@ -15,10 +15,9 @@ public class GOFMainFrame extends JFrame {
         super("Game of Life");
         initializeInputPanel();
         initializeWindow();
-        initializeGamePanel(50);
     }
 
-    private void initializeGamePanel(int n) {
+    public void initializeGamePanel(int n) {
         // Create blank game map
         gamePanel.setLayout(new GridLayout(n, n));
         gamePanel.setPreferredSize(new Dimension(800, 800));
@@ -26,17 +25,24 @@ public class GOFMainFrame extends JFrame {
             for (int j = 0; j < n; j++) {
                 JPanel tempPanel = new JPanel();
                 tempPanel.setMinimumSize(new Dimension(1, 1));
-                tempPanel.setBackground(new Random().nextBoolean() ? Color.BLACK : Color.WHITE);
+                tempPanel.setBackground(Color.WHITE);
                 tempPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
                 gamePanel.add(tempPanel);
             }
         }
     }
 
+    public void rePaintGamePanel(int n, boolean[][] gameMap) {
+        for (int i = 0; i < n; i++)
+            for (int j = 0; j < n; j++)
+                gamePanel.getComponent(i * n + j)
+                        .setBackground(gameMap[i][j] ? Color.BLACK : Color.WHITE);
+    }
+
     private void initializeInputPanel() {
-        inputPanel.add(InputPanelFactory.createTwoInputs("Enter number of rows and columns: ",
-                "Enter number of generations: ", (x) -> {
-                }));
+        inputPanel.add(
+                InputPanelFactory.createTwoInputs("Enter number of rows and columns: ",
+                        "Enter number of generations: "));
         Border margin = BorderFactory.createEmptyBorder(5, 0, 5, 0);
         inputPanel.setBorder(margin);
     }
