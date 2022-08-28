@@ -5,7 +5,6 @@ import com.company.paco.game.of.life.swing.elements.input.InputPanelFactory;
 import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
-import java.awt.event.ActionListener;
 
 public class GOFMainFrame extends JFrame {
     private final JPanel gamePanel = new JPanel();
@@ -37,6 +36,7 @@ public class GOFMainFrame extends JFrame {
             for (int j = 0; j < n; j++)
                 gamePanel.getComponent(i * n + j)
                         .setBackground(gameMap[i][j] ? Color.BLACK : Color.WHITE);
+        validate();
     }
 
     private void initializeInputPanel() {

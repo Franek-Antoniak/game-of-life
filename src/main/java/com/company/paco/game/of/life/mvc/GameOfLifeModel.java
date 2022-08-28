@@ -13,14 +13,13 @@ import java.util.function.BiFunction;
 public class GameOfLifeModel {
     private final Random random = new Random();
     private GameMap gameMap;
-    private int currentGeneration = 0;
-
-    public GameMap getGameMap() {
-        return gameMap;
-    }
 
     public GameOfLifeModel(int n) {
         initializeMap(n);
+    }
+
+    public GameMap getGameMap() {
+        return gameMap;
     }
 
     /**
@@ -35,7 +34,6 @@ public class GameOfLifeModel {
      * Updates curren map to the next generation with usage of Generation Algorithm
      */
     public void nextGeneration() {
-        currentGeneration++;
         updateMap(GenerationAlgorithm::calculateNewState);
     }
 
@@ -46,13 +44,11 @@ public class GameOfLifeModel {
     private void updateMap(BiFunction<boolean[][], Pair, Boolean> getNewCellState) {
         int n = gameMap.getMap().length;
         boolean[][] newMap = new boolean[n][n];
-        int numberOfAliveCells = 0;
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < n; j++) {
                 newMap[i][j] = getNewCellState.apply(gameMap.getMap(), new Pair(i, j));
-                numberOfAliveCells += newMap[i][j] ? 1 : 0;
             }
         }
-        gameMap.setMapInfo(newMap, numberOfAliveCells);
+        gameMap.setMapInfo(newMap);
     }
 }

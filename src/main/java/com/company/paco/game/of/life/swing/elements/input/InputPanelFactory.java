@@ -51,7 +51,8 @@ public class InputPanelFactory {
                 int g = Integer.parseInt(input2.getText());
                 if (n < 1 || n > 100 || g < 1 || g > 100)
                     throw new NumberFormatException();
-                GameOfLifeController.getInstance().startTheGame(n, g);
+                GameOfLifeController.getInstance()
+                        .startTheGame(n, g);
                 startButton.setEnabled(false);
 
             } catch (NumberFormatException e) {
@@ -62,7 +63,7 @@ public class InputPanelFactory {
         startButton.setBackground(Color.WHITE);
         startButton.setFont(new Font("Arial", Font.BOLD, 16));
         startButton.setRequestFocusEnabled(false);
-        UIManager.put("Button.select", new Color(200,200,200));
+        UIManager.put("Button.select", new Color(200, 200, 200));
         startButton.setBorder(BorderFactory.createLineBorder(Color.BLACK));
         return startButton;
     }

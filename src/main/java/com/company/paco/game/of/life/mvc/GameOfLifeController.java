@@ -1,10 +1,9 @@
 package com.company.paco.game.of.life.mvc;
 
 public class GameOfLifeController {
+    private final static GameOfLifeController controllerInstance = new GameOfLifeController();
     private GOFMainFrame GOFMainFrame;
     private GameOfLifeModel gameOfLifeModel;
-
-    private final static GameOfLifeController controllerInstance = new GameOfLifeController();
 
     private GameOfLifeController() {
     }
