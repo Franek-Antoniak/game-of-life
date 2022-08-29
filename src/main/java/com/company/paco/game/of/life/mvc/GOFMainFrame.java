@@ -23,13 +23,13 @@ public class GOFMainFrame extends JFrame {
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < n; j++) {
                 JPanel tempPanel = new JPanel();
-                tempPanel.setMinimumSize(new Dimension(1, 1));
+                tempPanel.setMinimumSize(new Dimension(2, 2));
                 tempPanel.setBackground(Color.WHITE);
                 tempPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
                 gamePanel.add(tempPanel);
             }
         }
-        validate();
+        SwingUtilities.updateComponentTreeUI(gamePanel);
     }
 
     public void rePaintGamePanel(int n, boolean[][] gameMap) {
@@ -37,7 +37,7 @@ public class GOFMainFrame extends JFrame {
             for (int j = 0; j < n; j++)
                 gamePanel.getComponent(i * n + j)
                         .setBackground(gameMap[i][j] ? Color.BLACK : Color.WHITE);
-        repaint();
+        gamePanel.repaint();
     }
 
     private void initializeInputPanel() {

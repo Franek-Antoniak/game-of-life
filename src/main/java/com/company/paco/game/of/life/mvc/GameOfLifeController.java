@@ -19,13 +19,14 @@ public class GameOfLifeController {
     public void startTheGame(int n, int maxGenerations) {
         gameOfLifeModel = new GameOfLifeModel(n);
         GOFMainFrame.initializeGamePanel(n);
+        var gameMap = gameOfLifeModel.getGameMap();
         new Thread(() -> {
             for (int i = 0; i < maxGenerations; i++) {
-                GOFMainFrame.rePaintGamePanel(n, gameOfLifeModel.getGameMap()
-                        .getMap());
+                System.out.println("Generation: " + (i + 1));
+                GOFMainFrame.rePaintGamePanel(n, gameMap.getMap());
                 gameOfLifeModel.nextGeneration();
                 try {
-                    Thread.sleep(500);
+                    Thread.sleep(140);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }

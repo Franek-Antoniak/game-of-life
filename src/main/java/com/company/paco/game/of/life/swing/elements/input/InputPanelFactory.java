@@ -49,7 +49,7 @@ public class InputPanelFactory {
             try {
                 int n = Integer.parseInt(input1.getText());
                 int g = Integer.parseInt(input2.getText());
-                if (n < 1 || n > 100 || g < 1 || g > 100)
+                if (n < 1 || n > 150 || g < 0)
                     throw new NumberFormatException();
                 GameOfLifeController.getInstance()
                         .startTheGame(n, g);
