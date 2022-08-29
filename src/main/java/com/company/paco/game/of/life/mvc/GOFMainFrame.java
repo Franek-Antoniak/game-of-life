@@ -29,6 +29,7 @@ public class GOFMainFrame extends JFrame {
                 gamePanel.add(tempPanel);
             }
         }
+        validate();
     }
 
     public void rePaintGamePanel(int n, boolean[][] gameMap) {
@@ -36,7 +37,7 @@ public class GOFMainFrame extends JFrame {
             for (int j = 0; j < n; j++)
                 gamePanel.getComponent(i * n + j)
                         .setBackground(gameMap[i][j] ? Color.BLACK : Color.WHITE);
-        validate();
+        repaint();
     }
 
     private void initializeInputPanel() {
