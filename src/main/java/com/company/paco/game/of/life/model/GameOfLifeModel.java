@@ -1,14 +1,15 @@
-package com.company.paco.game.of.life.mvc;
+package com.company.paco.game.of.life.model;
 
+import com.company.paco.game.of.life.data.formats.record.Pair;
 import com.company.paco.game.of.life.generation.algorithm.GenerationAlgorithm;
 import com.company.paco.game.of.life.map.GameMap;
-import com.company.paco.game.of.life.record.Pair;
 
 import java.util.Random;
 import java.util.function.BiFunction;
 
 /**
- * Class with the most abstract implementation of the game logic.
+ * MVC(Model) class for the Game of Life. It stores the game map and has functions to initialize and to update it to
+ * the next generation.
  */
 public class GameOfLifeModel {
     private final Random random = new Random();
@@ -43,12 +44,14 @@ public class GameOfLifeModel {
      */
     private void updateMap(BiFunction<boolean[][], Pair, Boolean> getNewCellState) {
         int n = gameMap.getMap().length;
+        int aliveCells = 0;
         boolean[][] newMap = new boolean[n][n];
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < n; j++) {
                 newMap[i][j] = getNewCellState.apply(gameMap.getMap(), new Pair(i, j));
+                aliveCells += newMap[i][j] ? 1 : 0;
             }
         }
-        gameMap.setMapInfo(newMap);
+        gameMap.setMapInfo(newMap, aliveCells);
     }
 }
