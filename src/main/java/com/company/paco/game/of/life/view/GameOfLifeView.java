@@ -57,9 +57,8 @@ public class GameOfLifeView extends JFrame {
      * Initializes the window. Sets the size of the window and adds the main panels to the window.
      */
     private void initializeWindow() {
-        int starterSize = 800;
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        setSize(starterSize, starterSize);
+        setSize(1060, 1060);
         setLocationRelativeTo(null);
         setLayout();
         setVisible(true);
