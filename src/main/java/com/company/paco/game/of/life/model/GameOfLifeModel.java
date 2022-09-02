@@ -32,7 +32,7 @@ public class GameOfLifeModel {
     }
 
     /**
-     * Updates curren map to the next generation with usage of Generation Algorithm
+     * Updates current map to the next generation with usage of Generation Algorithm
      */
     public void nextGeneration() {
         updateMap(GenerationAlgorithm::calculateNewState);

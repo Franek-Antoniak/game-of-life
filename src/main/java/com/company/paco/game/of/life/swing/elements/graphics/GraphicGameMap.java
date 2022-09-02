@@ -36,12 +36,23 @@ public class GraphicGameMap extends JPanel {
         if (cells == null) {
             return;
         }
+        drawMapSeparators(g);
+        paintCells(g);
+    }
+    /**
+     * Draws the separators between the rows and columns of the map.
+     *
+     * @param g Graphics object used to draw the separators
+     */
+    private void drawMapSeparators(Graphics g) {
         Graphics2D g2d = (Graphics2D) g;
         int pxCell = getHeight() / cells.length;
         int starter = getWidth() / 2 - (cells.length * pxCell) / 2;
-        g2d.setStroke(new BasicStroke(2));
-        g2d.drawRect(starter, 0, pxCell * cells.length, pxCell * cells.length);
-        paintCells(g);
+        g2d.setStroke(new BasicStroke(0));
+        for (int i = 0; i <= cells.length; i++) {
+            g2d.drawLine(starter, pxCell * i, starter + pxCell * cells.length, pxCell * i);
+            g2d.drawLine(starter + pxCell * i, 0, starter + pxCell * i, pxCell * cells.length);
+        }
     }
 
     /**

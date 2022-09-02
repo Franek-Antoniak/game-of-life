@@ -59,6 +59,7 @@ public class GameOfLifeView extends JFrame {
     private void initializeWindow() {
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setSize(1060, 1060);
+        setResizable(false);
         setLocationRelativeTo(null);
         setLayout();
         setVisible(true);
