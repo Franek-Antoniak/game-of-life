@@ -1,4 +1,4 @@
-package com.company.paco.game.of.life.swing.component.factories;
+package com.company.paco.game.of.life.swing.component.factory;
 
 import javax.swing.*;
 import java.awt.*;

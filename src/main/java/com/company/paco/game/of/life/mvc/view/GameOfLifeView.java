@@ -1,9 +1,9 @@
-package com.company.paco.game.of.life.view;
+package com.company.paco.game.of.life.mvc.view;
 
-import com.company.paco.game.of.life.controller.GameOfLifeController;
-import com.company.paco.game.of.life.map.GameMap;
-import com.company.paco.game.of.life.swing.component.factories.JLabelFactory;
-import com.company.paco.game.of.life.swing.elements.graphics.GraphicGameMap;
+import com.company.paco.game.of.life.mvc.controller.GameOfLifeController;
+import com.company.paco.game.of.life.swing.component.factory.JLabelFactory;
+import com.company.paco.game.of.life.swing.component.graphic.GameMapGraphic;
+import com.company.paco.game.of.life.util.structure.GameMap;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -41,7 +41,7 @@ public class GameOfLifeView extends JFrame {
         int rows = GameOfLifeController.getInstance()
                 .getSettings()
                 .getRows();
-        gamePanel = new GraphicGameMap(rows);
+        gamePanel = new GameMapGraphic(rows);
     }
 
     /**
@@ -50,7 +50,7 @@ public class GameOfLifeView extends JFrame {
      * @param map boolean map with state of cells
      */
     public void updateGamePanel(boolean[][] map) {
-        ((GraphicGameMap) gamePanel).updateImage(map);
+        ((GameMapGraphic) gamePanel).updateImage(map);
     }
 
     /**
