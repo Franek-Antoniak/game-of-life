@@ -1,4 +1,4 @@
-package com.company.paco.game.of.life.map;
+package com.company.paco.game.of.life.util.structure;
 
 /**
  * GameMap info being stored in Model(MVC) used for every info about the game.

@@ -1,8 +1,8 @@
-package com.company.paco.game.of.life.controller;
+package com.company.paco.game.of.life.mvc.controller;
 
-import com.company.paco.game.of.life.model.GameOfLifeModel;
-import com.company.paco.game.of.life.settings.GameSettings;
-import com.company.paco.game.of.life.view.GameOfLifeView;
+import com.company.paco.game.of.life.mvc.model.GameOfLifeModel;
+import com.company.paco.game.of.life.mvc.view.GameOfLifeView;
+import com.company.paco.game.of.life.util.settings.GameSettings;
 
 import javax.swing.*;
 

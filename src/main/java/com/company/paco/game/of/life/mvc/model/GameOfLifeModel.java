@@ -1,8 +1,8 @@
-package com.company.paco.game.of.life.model;
+package com.company.paco.game.of.life.mvc.model;
 
-import com.company.paco.game.of.life.data.formats.record.Pair;
-import com.company.paco.game.of.life.generation.algorithm.GenerationAlgorithm;
-import com.company.paco.game.of.life.map.GameMap;
+import com.company.paco.game.of.life.util.GenerationAlgorithm;
+import com.company.paco.game.of.life.util.structure.GameMap;
+import com.company.paco.game.of.life.util.structure.Pair;
 
 import java.util.Random;
 import java.util.function.BiFunction;

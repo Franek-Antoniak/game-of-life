@@ -1,13 +1,12 @@
-package com.company.paco.game.of.life.settings;
+package com.company.paco.game.of.life.util.settings;
 
 /**
  * Storage for game settings.
  */
 public class GameSettings {
+    private static final int rows = 200;
     private Speed speed = Speed.SUPER_FAST3;
     private boolean isStopped = false;
-
-    private int rows = 900;
 
     /**
      * Instantiates a new Game settings.
@@ -33,10 +32,6 @@ public class GameSettings {
 
     public int getRows() {
         return rows;
-    }
-
-    public void setRows(int rows) {
-        this.rows = rows;
     }
 
     /**

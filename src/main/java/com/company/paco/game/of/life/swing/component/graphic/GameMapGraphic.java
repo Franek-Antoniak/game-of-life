@@ -1,4 +1,4 @@
-package com.company.paco.game.of.life.swing.elements.graphics;
+package com.company.paco.game.of.life.swing.component.graphic;
 
 import javax.swing.*;
 import java.awt.*;
@@ -6,7 +6,7 @@ import java.awt.*;
 /**
  * Subclass of JPanel that is used to display the game map.
  */
-public class GraphicGameMap extends JPanel {
+public class GameMapGraphic extends JPanel {
     private boolean[][] cells;
 
     /**
@@ -14,7 +14,7 @@ public class GraphicGameMap extends JPanel {
      *
      * @param rows how many rows and columns the map has
      */
-    public GraphicGameMap(int rows) {
+    public GameMapGraphic(int rows) {
         super();
         cells = new boolean[rows][rows];
         //Create black border around the map
@@ -39,6 +39,7 @@ public class GraphicGameMap extends JPanel {
         drawMapSeparators(g);
         paintCells(g);
     }
+
     /**
      * Draws the separators between the rows and columns of the map.
      *

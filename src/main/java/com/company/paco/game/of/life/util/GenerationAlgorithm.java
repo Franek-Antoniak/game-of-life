@@ -1,6 +1,6 @@
-package com.company.paco.game.of.life.generation.algorithm;
+package com.company.paco.game.of.life.util;
 
-import com.company.paco.game.of.life.data.formats.record.Pair;
+import com.company.paco.game.of.life.util.structure.Pair;
 
 import java.util.function.Function;
 
