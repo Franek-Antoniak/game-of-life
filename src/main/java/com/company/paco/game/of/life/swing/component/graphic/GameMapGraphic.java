@@ -7,6 +7,7 @@ import java.awt.*;
  * Subclass of JPanel that is used to display the game map.
  */
 public class GameMapGraphic extends JPanel {
+    private static final int cellSize = 5;
     private boolean[][] cells;
 
     /**
@@ -40,19 +41,13 @@ public class GameMapGraphic extends JPanel {
         paintCells(g);
     }
 
-    /**
-     * Draws the separators between the rows and columns of the map.
-     *
-     * @param g Graphics object used to draw the separators
-     */
+    // Draws the separators between the rows and columns of the map.
     private void drawMapSeparators(Graphics g) {
         Graphics2D g2d = (Graphics2D) g;
-        int pxCell = getHeight() / cells.length;
-        int starter = getWidth() / 2 - (cells.length * pxCell) / 2;
         g2d.setStroke(new BasicStroke(0));
         for (int i = 0; i <= cells.length; i++) {
-            g2d.drawLine(starter, pxCell * i, starter + pxCell * cells.length, pxCell * i);
-            g2d.drawLine(starter + pxCell * i, 0, starter + pxCell * i, pxCell * cells.length);
+            g2d.drawLine(0, i * cellSize, cells.length * cellSize, i * cellSize);
+            g2d.drawLine(i * cellSize, 0, i * cellSize, cells.length * cellSize);
         }
     }
 
@@ -62,13 +57,11 @@ public class GameMapGraphic extends JPanel {
      * @param g Graphic component - map of cells
      */
     public void paintCells(Graphics g) {
-        int pxCell = getHeight() / cells.length;
-        int starter = getWidth() / 2 - (cells.length * pxCell) / 2;
         for (int i = 0; i < cells.length; i++) {
             for (int j = 0; j < cells.length; j++) {
                 if (cells[i][j]) {
                     g.setColor(Color.BLACK);
-                    g.fillRect(starter + j * pxCell, i * pxCell, pxCell, pxCell);
+                    g.fillRect(i * cellSize, j * cellSize, cellSize, cellSize);
                 }
             }
         }

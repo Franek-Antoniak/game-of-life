@@ -1,47 +1,106 @@
 package com.company.paco.game.of.life.mvc.view;
 
-import com.company.paco.game.of.life.mvc.controller.GameOfLifeController;
-import com.company.paco.game.of.life.swing.component.factory.JLabelFactory;
 import com.company.paco.game.of.life.swing.component.graphic.GameMapGraphic;
+import com.company.paco.game.of.life.util.settings.GameSettings;
 import com.company.paco.game.of.life.util.structure.GameMap;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
-import javax.swing.border.Border;
+import java.awt.*;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Objects;
 
 /**
  * MVC View class for the Game of Life. This class is responsible for creating the GUI and updating it.
  */
 public class GameOfLifeView extends JFrame {
-    private final JPanel infoPanel = new JPanel();
-    private JPanel gamePanel = new JPanel();
+    private final static int FRAME_WIDTH = 1010;
+    private final static int FRAME_HEIGHT = 815;
+    private final static Font frameFont = new Font("San Francisco", Font.PLAIN, 20);
+    private final JPanel settingsPanel = new JPanel();
+    private final ArrayList<JPanel> settingsPanelComponents = new ArrayList<>();
+    private JPanel gameGraphicPanel = new JPanel();
 
+    /**
+     * Instantiates a new Game of life view.
+     */
     public GameOfLifeView() {
         super("Game of Life");
-        initializeInfoPanel();
+        initializeSettingsPanel();
         initializeGamePanel();
         initializeWindow();
     }
 
-    /**
-     * Initializes the info panel. InfoPanel stores information about the current generation and the number of alive cells.
-     */
-    private void initializeInfoPanel() {
-        infoPanel.setLayout(new BoxLayout(infoPanel, BoxLayout.PAGE_AXIS));
-        JLabel generationInfo = JLabelFactory.createJLabel("Generation #0");
-        JLabel cellsInfo = JLabelFactory.createJLabel("Cells alive: " + 0);
-        Border margin = BorderFactory.createEmptyBorder(5, 5, 5, 5);
-        infoPanel.add(generationInfo, margin);
-        infoPanel.add(cellsInfo, margin);
+
+    private void initializeSettingsPanel() {
+        settingsPanel.setLayout(new BoxLayout(settingsPanel, BoxLayout.Y_AXIS));
+        settingsPanel.setMaximumSize(new Dimension(210, 200));
+        initializedSettingsPanelComponents();
     }
 
-    /**
-     * Initializes the game panel. GamePanel is the panel that contains the graphic representation of the game map.
-     */
+    // Initializes components in the settings panel.
+    private void initializedSettingsPanelComponents() {
+        initializeControlButtons();
+        initializeGameInfo();
+        initializeSpeedSlider();
+    }
+
+    private void initializeControlButtons() {
+        JPanel controlButtonsPanel = new JPanel();
+        controlButtonsPanel.setLayout(new BoxLayout(controlButtonsPanel, BoxLayout.X_AXIS));
+        String[] buttonNames = {"resume", "pause", "reset"};
+        try {
+            for (int i = 0; i < 3; i++) {
+                AbstractButton button = i == 2 ? new JButton() : new JToggleButton();
+                button.setIcon(new ImageIcon(ImageIO.read(Objects.requireNonNull(getClass().getClassLoader()
+                                .getResourceAsStream("" + buttonNames[i] + ".png")))
+                        .getScaledInstance(30, 30,
+                                Image.SCALE_SMOOTH)));
+                controlButtonsPanel.add(button);
+                button.setBackground(Color.WHITE);
+                button.setFocusPainted(false);
+            }
+            settingsPanel.add(controlButtonsPanel);
+            settingsPanelComponents.add(controlButtonsPanel);
+        } catch (IOException e) {
+            throw new RuntimeException("Error while loading images for control buttons.");
+        }
+    }
+
+    private void initializeGameInfo() {
+        JPanel outerPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        outerPanel.setMaximumSize(new Dimension(200, 30));
+        JPanel gameInfoPanel = new JPanel();
+        gameInfoPanel.setLayout(new BoxLayout(gameInfoPanel, BoxLayout.Y_AXIS));
+        Font font = new Font(frameFont.getFontName(), Font.BOLD, frameFont.getSize());
+        JLabel generationLabel = new JLabel("Generation #");
+        generationLabel.setLayout(new FlowLayout());
+        generationLabel.setFont(font);
+        JLabel aliveLabel = new JLabel("Alive: ");
+        aliveLabel.setFont(font);
+        gameInfoPanel.add(generationLabel);
+        gameInfoPanel.add(aliveLabel);
+        outerPanel.add(gameInfoPanel);
+        settingsPanel.add(outerPanel);
+        settingsPanelComponents.add(gameInfoPanel);
+    }
+
+    private void initializeSpeedSlider() {
+        JPanel sliderPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        JSlider speedSlider = new JSlider(JSlider.HORIZONTAL, 0, 1000, 500);
+        JPanel textPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        JLabel speedLabel = new JLabel("Speed: " + speedSlider.getValue());
+        textPanel.add(speedLabel);
+        speedLabel.setFont(new Font(frameFont.getFontName(), frameFont.getStyle(), 18));
+        sliderPanel.add(textPanel);
+        sliderPanel.add(speedSlider);
+        settingsPanel.add(sliderPanel);
+    }
+
     private void initializeGamePanel() {
-        int rows = GameOfLifeController.getInstance()
-                .getSettings()
-                .getRows();
-        gamePanel = new GameMapGraphic(rows);
+        int rows = GameSettings.getRows();
+        gameGraphicPanel = new GameMapGraphic(rows);
     }
 
     /**
@@ -49,47 +108,50 @@ public class GameOfLifeView extends JFrame {
      *
      * @param map boolean map with state of cells
      */
-    public void updateGamePanel(boolean[][] map) {
-        ((GameMapGraphic) gamePanel).updateImage(map);
+    private void updateGamePanel(boolean[][] map) {
+        ((GameMapGraphic) gameGraphicPanel).updateImage(map);
     }
 
-    /**
-     * Initializes the window. Sets the size of the window and adds the main panels to the window.
-     */
+    // Initializes the window. Sets the size of the window and adds the main panels to the window.
     private void initializeWindow() {
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        setSize(1060, 1060);
+        setSize(FRAME_WIDTH, FRAME_HEIGHT);
         setResizable(false);
         setLocationRelativeTo(null);
         setLayout();
         setVisible(true);
     }
 
-    /**
-     * Sets the layout of the window. Window is divided into two panels: game panel and info panel.
-     * Game panel is on the bottom and info panel is on the top. They are on the same x-axis.
-     */
+
+    // Sets the layout of the window. Window is divided into two panels: game panel and info panel.
+    // Game panel is on the bottom and info panel is on the top. They are on the same x-axis.
     private void setLayout() {
         GroupLayout layout = new GroupLayout(getContentPane());
         setLayout(layout);
         layout.setAutoCreateGaps(true);
         layout.setAutoCreateContainerGaps(true);
-        layout.setHorizontalGroup(layout.createParallelGroup(GroupLayout.Alignment.CENTER)
-                .addComponent(infoPanel, GroupLayout.Alignment.CENTER)
-                .addComponent(gamePanel, GroupLayout.Alignment.CENTER));
-        layout.setVerticalGroup(layout.createSequentialGroup()
-                .addComponent(infoPanel)
-                .addComponent(gamePanel));
-
+        layout.setHorizontalGroup(layout.createSequentialGroup()
+                .addComponent(settingsPanel)
+                .addComponent(gameGraphicPanel));
+        layout.setVerticalGroup(layout.createParallelGroup()
+                .addComponent(settingsPanel)
+                .addComponent(gameGraphicPanel));
     }
 
     /**
-     * Updates text info about the game in the info panel.
+     * Updates the view with the new game map.
      *
-     * @param gameMap the game map
+     * @param gameMap the current game map
      */
-    public void updateGameInfo(GameMap gameMap) {
-        ((JLabel) infoPanel.getComponent(0)).setText("Generation #" + gameMap.getCurrGeneration());
-        ((JLabel) infoPanel.getComponent(1)).setText("Cells alive: " + gameMap.getAliveCells());
+    public void updateGameFrame(GameMap gameMap) {
+        updateGamePanel(gameMap.getMap());
+        updateSettingsPanel(gameMap.getCurrGeneration(), gameMap.getAliveCells());
+    }
+
+
+    private void updateSettingsPanel(int currGeneration, int aliveCells) {
+        JPanel jPanel = settingsPanelComponents.get(1);
+        ((JLabel) jPanel.getComponent(0)).setText("Generation #" + currGeneration);
+        ((JLabel) jPanel.getComponent(1)).setText("Alive: " + aliveCells);
     }
 }
