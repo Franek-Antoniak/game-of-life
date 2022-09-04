@@ -3,6 +3,7 @@ package com.company.paco.game.of.life.mvc.controller;
 import com.company.paco.game.of.life.mvc.model.GameOfLifeModel;
 import com.company.paco.game.of.life.mvc.view.GameOfLifeView;
 import com.company.paco.game.of.life.util.settings.GameSettings;
+import lombok.Getter;
 
 import javax.swing.*;
 
@@ -10,23 +11,17 @@ import javax.swing.*;
  * MVC controller class. It is responsible for initializing the game and starting the game.
  */
 public class GameOfLifeController {
+    @Getter
     private final static GameOfLifeController controllerInstance = new GameOfLifeController();
+    @Getter
     private final GameSettings gameSettings = new GameSettings();
-    private final GameOfLifeModel gameOfLifeModel = new GameOfLifeModel(gameSettings.getRows());
+    private final GameOfLifeModel gameOfLifeModel = new GameOfLifeModel(GameSettings.getRows());
     private GameOfLifeView mainFrame;
 
-    /**
-     * Private constructor for singleton pattern
-     */
+
+    //  Private constructor for singleton pattern
     private GameOfLifeController() {
 
-    }
-
-    /**
-     * @return the instance of singleton object.
-     */
-    public static GameOfLifeController getInstance() {
-        return controllerInstance;
     }
 
     /**
@@ -39,29 +34,21 @@ public class GameOfLifeController {
         });
     }
 
-    /**
-     * Starts the game - initializes map borders and starts the game loop.
-     * In a loop the game is updated and the frame is repainted.
-     */
+    // Starts the game - initializes map borders and starts the game loop.
+    // In a loop the game is updated and the frame is repainted.
     private void startTheGame() {
         var gameMap = gameOfLifeModel.getGameMap();
         new Thread(() -> {
             // TODO: implement flag for game loop
             while (true) {
-                mainFrame.updateGameInfo(gameMap);
-                mainFrame.updateGamePanel(gameMap.getMap());
+                mainFrame.updateGameFrame(gameMap);
                 gameOfLifeModel.nextGeneration();
                 try {
-                    Thread.sleep(gameSettings.getSpeed()
-                            .getValue());
+                    Thread.sleep(gameSettings.getSpeed());
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
             }
         }).start();
-    }
-
-    public GameSettings getSettings() {
-        return gameSettings;
     }
 }

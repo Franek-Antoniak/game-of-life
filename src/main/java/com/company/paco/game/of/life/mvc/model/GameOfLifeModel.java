@@ -23,9 +23,7 @@ public class GameOfLifeModel {
         return gameMap;
     }
 
-    /**
-     * When game is started map is generated through Random class object
-     */
+    // When game is started map is generated through Random class object
     private void initializeMap(int n) {
         gameMap = new GameMap(n);
         updateMap((x, y) -> random.nextBoolean());
@@ -38,10 +36,8 @@ public class GameOfLifeModel {
         updateMap(GenerationAlgorithm::calculateNewState);
     }
 
-    /**
-     * The function updates the map depending on the lambda function given to it.
-     * The function reduces code repetition.
-     */
+    // The function updates the map depending on the lambda function given to it.
+    // The function reduces code repetition.
     private void updateMap(BiFunction<boolean[][], Pair, Boolean> getNewCellState) {
         int n = gameMap.getMap().length;
         int aliveCells = 0;
