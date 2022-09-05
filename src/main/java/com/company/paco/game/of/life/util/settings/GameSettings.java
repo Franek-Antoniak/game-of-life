@@ -11,7 +11,7 @@ public class GameSettings {
     private static final int rows = 150;
     @Getter
     @Setter
-    private int speed = 500;
+    private int speed = 50;
     @Getter
     @Setter
     private boolean isStopped = false;
