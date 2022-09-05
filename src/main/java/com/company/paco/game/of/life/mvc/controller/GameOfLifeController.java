@@ -30,10 +30,7 @@ public class GameOfLifeController {
      * Initializes the main frame of the game.
      */
     public void initializeMainFrame() {
-        SwingUtilities.invokeLater(() -> {
-            mainFrame = new GameOfLifeView(GameSettings.getRows());
-            startTheGame();
-        });
+        SwingUtilities.invokeLater(() -> mainFrame = new GameOfLifeView(GameSettings.getRows()));
     }
 
     // Starts the game - initializes map borders and starts the game loop.
@@ -49,15 +46,24 @@ public class GameOfLifeController {
         }).start();
     }
 
+    /**
+     * Resets the game.
+     */
     public void resumeGame(ActionEvent actionEvent) {
         gameSettings.setStopped(false);
         startTheGame();
     }
 
+    /**
+     * Pauses the game.
+     */
     public void pauseGame(ActionEvent actionEvent) {
         gameSettings.setStopped(true);
     }
 
+    /**
+     * Resets the game.
+     */
     public void resetGame(ActionEvent actionEvent) {
         gameSettings.setStopped(true);
         gameOfLifeModel = new GameOfLifeModel(GameSettings.getRows());

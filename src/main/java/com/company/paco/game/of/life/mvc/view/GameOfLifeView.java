@@ -55,6 +55,12 @@ public class GameOfLifeView extends JFrame {
         String[] buttonNames = {"resume", "pause", "reset"};
         GameOfLifeController controller = GameOfLifeController.getControllerInstance();
         ActionListener[] buttonActions = {controller::resumeGame, controller::pauseGame, controller::resetGame};
+        addButtonsToPanel(controlButtonsPanel, buttonNames, buttonActions);
+        settingsPanel.add(controlButtonsPanel);
+        settingsPanelComponents.add(controlButtonsPanel);
+    }
+
+    private void addButtonsToPanel(JPanel controlButtonsPanel, String[] buttonNames, ActionListener[] buttonActions) {
         ButtonGroup buttonGroup = new ButtonGroup();
         try {
             for (int i = 0; i < 3; i++) {
@@ -68,13 +74,11 @@ public class GameOfLifeView extends JFrame {
                 button.setFocusPainted(false);
                 button.addActionListener(buttonActions[i]);
             }
-            ((JToggleButton) controlButtonsPanel.getComponent(0)).setSelected(true);
-            settingsPanel.add(controlButtonsPanel);
-            settingsPanelComponents.add(controlButtonsPanel);
         } catch (IOException e) {
             throw new RuntimeException("Error while loading images for control buttons.");
         }
     }
+
 
     private void initializeGameInfo() {
         JPanel outerPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
@@ -82,16 +86,18 @@ public class GameOfLifeView extends JFrame {
         JPanel gameInfoPanel = new JPanel();
         gameInfoPanel.setLayout(new BoxLayout(gameInfoPanel, BoxLayout.Y_AXIS));
         Font font = new Font(frameFont.getFontName(), Font.BOLD, frameFont.getSize());
-        JLabel generationLabel = new JLabel("Generation #");
-        generationLabel.setLayout(new FlowLayout());
-        generationLabel.setFont(font);
-        JLabel aliveLabel = new JLabel("Alive: ");
-        aliveLabel.setFont(font);
-        gameInfoPanel.add(generationLabel);
-        gameInfoPanel.add(aliveLabel);
-        outerPanel.add(gameInfoPanel);
+        addLabelsToPanel(gameInfoPanel, outerPanel, font);
         settingsPanel.add(outerPanel);
         settingsPanelComponents.add(gameInfoPanel);
+    }
+
+    private void addLabelsToPanel(JPanel gameInfoPanel, JPanel boxPanel, Font font) {
+        for (int i = 0; i < 2; i++) {
+            JLabel label = new JLabel();
+            label.setFont(font);
+            gameInfoPanel.add(label);
+        }
+        boxPanel.add(gameInfoPanel);
     }
 
     private void initializeSpeedSlider() {
@@ -103,7 +109,6 @@ public class GameOfLifeView extends JFrame {
         speedLabel.setFont(new Font(frameFont.getFontName(), frameFont.getStyle(), 18));
         sliderPanel.add(textPanel);
         sliderPanel.add(speedSlider);
-        // Speed slider changes speed of the game.
         speedSlider.addChangeListener(e -> {
             GameOfLifeController.getControllerInstance()
                     .getGameSettings()
