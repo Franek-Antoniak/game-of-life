@@ -1,7 +1,6 @@
 <p style="text-align: center">
     <img src="https://img.shields.io/github/commit-activity/m/Franek-Antoniak/game-of-life"  alt="commit_activity"/>
     <img src="https://img.shields.io/github/last-commit/Franek-Antoniak/game-of-life"  alt="last_commit"/>
-    <img src="https://img.shields.io/tokei/lines/github/Franek-Antoniak/game-of-life"  alt="total_lines"/>
 </p>
 
 # Project in short
