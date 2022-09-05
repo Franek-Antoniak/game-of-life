@@ -7,7 +7,6 @@ import com.company.paco.game.of.life.util.settings.GameSettings;
 import lombok.Getter;
 
 import javax.swing.*;
-import java.awt.event.ActionEvent;
 
 /**
  * MVC controller class. It is responsible for initializing the game and starting the game.
@@ -47,9 +46,9 @@ public class GameOfLifeController {
     }
 
     /**
-     * Resets the game.
+     * Resumes the game.
      */
-    public void resumeGame(ActionEvent actionEvent) {
+    public void resumeGame() {
         gameSettings.setStopped(false);
         startTheGame();
     }
@@ -57,14 +56,14 @@ public class GameOfLifeController {
     /**
      * Pauses the game.
      */
-    public void pauseGame(ActionEvent actionEvent) {
+    public void pauseGame() {
         gameSettings.setStopped(true);
     }
 
     /**
      * Resets the game.
      */
-    public void resetGame(ActionEvent actionEvent) {
+    public void resetGame() {
         gameSettings.setStopped(true);
         gameOfLifeModel = new GameOfLifeModel(GameSettings.getRows());
         JPanel panel = mainFrame.getSettingsPanelComponents()
