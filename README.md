@@ -12,7 +12,7 @@ created by John Horton Conway in 1970. \
 ## Installation and Usage
 
 Download the `.jar`
-file [here](https://github.com/Franek-Antoniak/game-of-life/raw/master/build/libs/game-of-life-2.0-SNAPSHOT.jar). It
+file [here](https://github.com/Franek-Antoniak/game-of-life/raw/master/build/libs/game-of-life-3.0.jar). It
 includes all dependencies. You must have
 the [Java Runtime Environment](https://www.oracle.com/java/technologies/javase/jdk17-archive-downloads.html) version 17
 or above.
