@@ -1,12 +1,14 @@
 package com.company.paco.game.of.life.mvc.view;
 
+import com.company.paco.game.of.life.mvc.controller.GameOfLifeController;
 import com.company.paco.game.of.life.swing.component.graphic.GameMapGraphic;
-import com.company.paco.game.of.life.util.settings.GameSettings;
 import com.company.paco.game.of.life.util.structure.GameMap;
+import lombok.Getter;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Objects;
@@ -19,16 +21,17 @@ public class GameOfLifeView extends JFrame {
     private final static int FRAME_HEIGHT = 815;
     private final static Font frameFont = new Font("San Francisco", Font.PLAIN, 20);
     private final JPanel settingsPanel = new JPanel();
+    private final JPanel gameGraphicPanel;
+    @Getter
     private final ArrayList<JPanel> settingsPanelComponents = new ArrayList<>();
-    private JPanel gameGraphicPanel = new JPanel();
 
     /**
      * Instantiates a new Game of life view.
      */
-    public GameOfLifeView() {
+    public GameOfLifeView(int rows) {
         super("Game of Life");
         initializeSettingsPanel();
-        initializeGamePanel();
+        gameGraphicPanel = new GameMapGraphic(rows);
         initializeWindow();
     }
 
@@ -50,16 +53,20 @@ public class GameOfLifeView extends JFrame {
         JPanel controlButtonsPanel = new JPanel();
         controlButtonsPanel.setLayout(new BoxLayout(controlButtonsPanel, BoxLayout.X_AXIS));
         String[] buttonNames = {"resume", "pause", "reset"};
+        GameOfLifeController controller = GameOfLifeController.getControllerInstance();
+        ActionListener[] buttonActions = {controller::resumeGame, controller::pauseGame, controller::resetGame};
+        ButtonGroup buttonGroup = new ButtonGroup();
         try {
             for (int i = 0; i < 3; i++) {
                 AbstractButton button = i == 2 ? new JButton() : new JToggleButton();
+                if (i != 2) buttonGroup.add(button);
                 button.setIcon(new ImageIcon(ImageIO.read(Objects.requireNonNull(getClass().getClassLoader()
                                 .getResourceAsStream("" + buttonNames[i] + ".png")))
-                        .getScaledInstance(30, 30,
-                                Image.SCALE_SMOOTH)));
+                        .getScaledInstance(30, 30, Image.SCALE_SMOOTH)));
                 controlButtonsPanel.add(button);
                 button.setBackground(Color.WHITE);
                 button.setFocusPainted(false);
+                button.addActionListener(buttonActions[i]);
             }
             ((JToggleButton) controlButtonsPanel.getComponent(0)).setSelected(true);
             settingsPanel.add(controlButtonsPanel);
@@ -96,12 +103,14 @@ public class GameOfLifeView extends JFrame {
         speedLabel.setFont(new Font(frameFont.getFontName(), frameFont.getStyle(), 18));
         sliderPanel.add(textPanel);
         sliderPanel.add(speedSlider);
+        // Speed slider changes speed of the game.
+        speedSlider.addChangeListener(e -> {
+            GameOfLifeController.getControllerInstance()
+                    .getGameSettings()
+                    .setSpeed(speedSlider.getValue());
+            speedLabel.setText("Speed: " + speedSlider.getValue());
+        });
         settingsPanel.add(sliderPanel);
-    }
-
-    private void initializeGamePanel() {
-        int rows = GameSettings.getRows();
-        gameGraphicPanel = new GameMapGraphic(rows);
     }
 
     /**
