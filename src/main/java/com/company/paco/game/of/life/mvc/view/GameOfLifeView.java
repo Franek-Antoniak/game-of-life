@@ -61,6 +61,7 @@ public class GameOfLifeView extends JFrame {
                 button.setBackground(Color.WHITE);
                 button.setFocusPainted(false);
             }
+            ((JToggleButton) controlButtonsPanel.getComponent(0)).setSelected(true);
             settingsPanel.add(controlButtonsPanel);
             settingsPanelComponents.add(controlButtonsPanel);
         } catch (IOException e) {
