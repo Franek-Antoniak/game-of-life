@@ -27,6 +27,8 @@ public class GameOfLifeView extends JFrame {
 
     /**
      * Instantiates a new Game of life view.
+     *
+     * @param rows the amount of rows
      */
     public GameOfLifeView(int rows) {
         super("Game of Life");
@@ -54,7 +56,8 @@ public class GameOfLifeView extends JFrame {
         controlButtonsPanel.setLayout(new BoxLayout(controlButtonsPanel, BoxLayout.X_AXIS));
         String[] buttonNames = {"resume", "pause", "reset"};
         GameOfLifeController controller = GameOfLifeController.getControllerInstance();
-        ActionListener[] buttonActions = {controller::resumeGame, controller::pauseGame, controller::resetGame};
+        ActionListener[] buttonActions = {actionEvent -> controller.resumeGame(), actionEvent -> controller.pauseGame(),
+                actionEvent -> controller.resetGame()};
         addButtonsToPanel(controlButtonsPanel, buttonNames, buttonActions);
         settingsPanel.add(controlButtonsPanel);
         settingsPanelComponents.add(controlButtonsPanel);

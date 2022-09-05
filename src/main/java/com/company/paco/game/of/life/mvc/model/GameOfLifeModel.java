@@ -15,10 +15,20 @@ public class GameOfLifeModel {
     private final Random random = new Random();
     private GameMap gameMap;
 
+    /**
+     * Instantiates a new Game of life model.
+     *
+     * @param n the n
+     */
     public GameOfLifeModel(int n) {
         initializeMap(n);
     }
 
+    /**
+     * Gets game map.
+     *
+     * @return the game map
+     */
     public GameMap getGameMap() {
         return gameMap;
     }
