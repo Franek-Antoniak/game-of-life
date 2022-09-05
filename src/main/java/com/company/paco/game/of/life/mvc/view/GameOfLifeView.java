@@ -1,12 +1,15 @@
 package com.company.paco.game.of.life.mvc.view;
 
+import com.company.paco.game.of.life.mvc.controller.GameOfLifeController;
 import com.company.paco.game.of.life.swing.component.graphic.GameMapGraphic;
 import com.company.paco.game.of.life.util.settings.GameSettings;
 import com.company.paco.game.of.life.util.structure.GameMap;
+import lombok.Getter;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Objects;
@@ -19,8 +22,11 @@ public class GameOfLifeView extends JFrame {
     private final static int FRAME_HEIGHT = 815;
     private final static Font frameFont = new Font("San Francisco", Font.PLAIN, 20);
     private final JPanel settingsPanel = new JPanel();
+    @Getter
     private final ArrayList<JPanel> settingsPanelComponents = new ArrayList<>();
+    private final GameOfLifeController controller = GameOfLifeController.getControllerInstance();
     private JPanel gameGraphicPanel = new JPanel();
+
 
     /**
      * Instantiates a new Game of life view.
@@ -50,9 +56,13 @@ public class GameOfLifeView extends JFrame {
         JPanel controlButtonsPanel = new JPanel();
         controlButtonsPanel.setLayout(new BoxLayout(controlButtonsPanel, BoxLayout.X_AXIS));
         String[] buttonNames = {"resume", "pause", "reset"};
+        ActionListener[] buttonActions = {(x) -> controller.resumeTheGame(), (x) -> controller.pauseTheGame(), (x) -> controller.restartTheGame()};
+        ButtonGroup bg = new ButtonGroup();
         try {
             for (int i = 0; i < 3; i++) {
-                AbstractButton button = i == 2 ? new JButton() : new JToggleButton();
+                AbstractButton button;
+                if (i == 2) button = new JButton();
+                else bg.add(button = new JToggleButton());
                 button.setIcon(new ImageIcon(ImageIO.read(Objects.requireNonNull(getClass().getClassLoader()
                                 .getResourceAsStream("" + buttonNames[i] + ".png")))
                         .getScaledInstance(30, 30,
@@ -60,7 +70,9 @@ public class GameOfLifeView extends JFrame {
                 controlButtonsPanel.add(button);
                 button.setBackground(Color.WHITE);
                 button.setFocusPainted(false);
+                button.addActionListener(buttonActions[i]);
             }
+            ((JToggleButton) controlButtonsPanel.getComponent(0)).setSelected(true);
             settingsPanel.add(controlButtonsPanel);
             settingsPanelComponents.add(controlButtonsPanel);
         } catch (IOException e) {
