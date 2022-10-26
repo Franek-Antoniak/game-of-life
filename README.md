@@ -30,23 +30,9 @@ java -jar directory:\game-of-life-3.0.jar
 - `Gradle 7.2`
 - `Lombok 1.18.20`
 
-## Screenshots
+## App preview
 
-#### Start screen
-
-<img src="https://i.imgur.com/ADIyCvw.png" height="350"  alt="First_screenshot"/>
-
-#### Game screen
-
-<img src="https://i.imgur.com/rjxdoZS.png" height="350"  alt="First_screenshot"/>
-
-#### First generation - after clicking the restart button
-
-<img src="https://i.imgur.com/rMP9HlP.png" height="350"  alt="First_screenshot"/>
-
-#### Game screen with some patterns
-
-<img src="https://i.imgur.com/UiqQKGC.png" height="350"  alt="First_screenshot"/>
+![Gif](https://user-images.githubusercontent.com/31598277/198145022-31e91546-914d-400a-a6d9-30f803a09b7d.gif)
 
 ## License
 
